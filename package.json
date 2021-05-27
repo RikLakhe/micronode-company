@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "12.x"
+    "node": "14.x"
   },
   "scripts": {
     "start:dev": "NODE_ENV=development yarn babel-watch -L src/index.js",
