@@ -1,10 +1,9 @@
-import * as userService from "../services/user"
+import * as companyService from "../services/company"
 
 import generateUUID from "../helper/generateUUID"
-import {hashPassword} from "../helper/passwordUtils"
 
 /**
- * Find all users.
+ * Find all company.
  *
  * @param {Object} req
  * @param {Object} res
@@ -12,18 +11,19 @@ import {hashPassword} from "../helper/passwordUtils"
  */
 export async function findAll(req, res, next) {
     try {
-        const response = await userService.findAll();
+        const response = await companyService.findAll();
 
         res.json({
-            response
+            data : response
         });
     } catch (err) {
+        console.log("err",err)
         next(err);
     }
 }
 
 /**
- * Find users by id.
+ * Find company by id.
  *
  * @param {Object} req
  * @param {Object} res
@@ -31,10 +31,10 @@ export async function findAll(req, res, next) {
  */
 export async function findById(req, res, next) {
     try {
-        const response = await userService.findById(req.params.id);
+        const response = await companyService.findById(req.params.id);
 
         res.json({
-            response
+            data : response
         });
     } catch (err) {
         next(err);
@@ -42,7 +42,7 @@ export async function findById(req, res, next) {
 }
 
 /**
- * create user.
+ * create module.
  *
  * @param {Object} req
  * @param {Object} res
@@ -51,29 +51,29 @@ export async function findById(req, res, next) {
 export async function create(req, res, next) {
     try {
         const {
-            name,
+            code,
             email,
-            password
+            name
         } = req.body
-        if (!name || !email || !password) {
+        if (!code || !email || !name) {
             throw new Error('Missing fields')
         } else {
 
             const id = generateUUID();
             const createDate = new Date();
             const data = {
-                user_id: id,
-                user_name: name,
-                user_email: email,
-                user_password: hashPassword(password),
+                company_id: id,
+                company_code: code,
+                company_email: email,
+                company_name: name,
                 created_at: createDate,
                 active: true
             }
 
-            const response = await userService.create(data);
+            const response = await companyService.create(data);
 
             res.json({
-                response
+                data : response
             });
         }
     } catch (err) {
@@ -82,7 +82,7 @@ export async function create(req, res, next) {
 }
 
 /**
- * update users by Id.
+ * update module by Id.
  *
  * @param {Object} req
  * @param {Object} res
@@ -91,27 +91,27 @@ export async function create(req, res, next) {
 export async function updateById(req, res, next) {
     try {
         const {
-            name,
+            code,
             email,
-            password,
+            name,
             active
         } = req.body
-        if (!name || !email || !password) {
+        if (!code || !email || !name) {
             throw new Error('Missing fields')
         } else {
             const updateDate = new Date();
             const data = {
-                user_name: name,
-                user_email: email,
-                user_password: hashPassword(password),
+                company_code: code,
+                company_email: email,
+                company_name: name,
                 updated_at: updateDate,
                 active: active
             }
 
-            const response = await userService.updateById(data, req.params.id);
+            const response = await companyService.updateById(data, req.params.id);
 
             res.json({
-                response
+                data : response
             });
         }
     } catch (err) {
@@ -122,7 +122,7 @@ export async function updateById(req, res, next) {
 
 
 /**
- * delete users by Id.
+ * delete module by Id.
  *
  * @param {Object} req
  * @param {Object} res
@@ -130,10 +130,10 @@ export async function updateById(req, res, next) {
  */
 export async function deleteById(req, res, next) {
     try {
-        const response = await userService.deleteById(req.params.id);
+        const response = await companyService.deleteById(req.params.id);
 
         res.json({
-            response
+            data : response
         });
     } catch (err) {
         next(err);

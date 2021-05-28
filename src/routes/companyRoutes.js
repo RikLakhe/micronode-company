@@ -1,7 +1,7 @@
 import {
     Router
 } from 'express'
-import * as moduleController from '../controller/module'
+import * as moduleController from '../controller/company'
 
 let router = Router();
 
